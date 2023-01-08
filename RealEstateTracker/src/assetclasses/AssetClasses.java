@@ -1,5 +1,6 @@
 package assetclasses;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class AssetClasses {
     
@@ -9,7 +10,7 @@ public class AssetClasses {
     
     public class SimulatedAsset {
         
-        public int num_months = 0;
+        public int month = 0;
         // FROM ASSET ASSUMPTIONS
         public double init_equity;
         public double init_liabilities;
@@ -24,10 +25,10 @@ public class AssetClasses {
         // CALCULABLE FROM ABOVE FIELDS
         // THESE WILL BE UPDATED BY UNIVERSAL METHODS
         public ArrayList<Double> cash_flow;
+        public ArrayList<Double> unrealized_appreciation; // Aka change in equity not due to liability payment or invesment
         public ArrayList<Double> liabilities;
         public ArrayList<Double> equity;
-        public ArrayList<Double> investment_base; // Aka how much income you've invested
-        public ArrayList<Double> unrealized_appreciation; // Aka change in equity not due to liability payment or invesment
+        public ArrayList<Double> invested_capital; // Aka how much income you've invested
         public ArrayList<Double> effective_income;
         public ArrayList<Double> annual_ROI_extrapolated;
         
@@ -45,7 +46,7 @@ public class AssetClasses {
         }
         
         public void reset() {
-            num_months = 0;
+            month = 0;
             asset_value.clear();
             revenue.clear();
             expenses.clear();
@@ -61,35 +62,42 @@ public class AssetClasses {
         public void extend() {
             
             append_cash_flow();
-            append_liabilities();
             append_unrealized_appreciation();
+            append_liabilities();
             append_equity();
+            append_invested_capital();
+            
             append_effective_income();
             append_extrapolated_ROI();
-            num_months += 1;
+            month += 1;
         }
         
         private void append_cash_flow() {
-            double inc = revenue.get(num_months);
-            inc -= expenses.get(num_months);
-            inc -= liability_payments.get(num_months);
-            inc -= additional_investments.get(num_months); 
+            double inc = revenue.get(month);
+            inc -= expenses.get(month);
+            inc -= liability_payments.get(month);
+            inc -= additional_investments.get(month); 
             cash_flow.add(inc);
         }
         
-        private void append_liabilities() {
-            double old_liability;
-            if (num_months == 0) {
-                old_liability = init_liabilities;
-            } else {
-                old_liability = liabilities.get(num_months-1);
-            }
-            
-            liabilities.add(old_liability - liability_payments.get(num_months));
+        private void append_unrealized_appreciation() {
+            unrealized_appreciation.add(  
+                asset_value.get(month) - additional_investments.get(month)
+            );
         }
         
-        private void append_unrealized_appreciation() {
-            
+        
+        private void append_liabilities() {
+            double old_liability = get_prev_liability();
+            liabilities.add(old_liability - liability_payments.get(month));
+        }
+        
+        private double get_prev_liability() {
+            if (month == 0) {
+                return init_liabilities;
+            } else {
+                return liabilities.get(month-1);
+            } 
         }
         
         
@@ -101,28 +109,48 @@ public class AssetClasses {
         }
         
         private double get_prev_equity() {
-            if (num_months == 0) {
+            if (month == 0) {
                 return init_equity;
             } else {
-                return equity.get(num_months-1);
+                return equity.get(month-1);
             } 
         }
         
         private double get_equity_change() {
             double change = 0;
-            change += additional_investments.get(num_months);
-            change += liability_payments.get(num_months);
-            change += unrealized_appreciation.get(num_months);
+            change += additional_investments.get(month);
+            change += liability_payments.get(month);
+            change += unrealized_appreciation.get(month);
             return change;
         }
         
+        private void append_invested_capital() {
+            
+            invested_capital.add(
+                get_prev_invested_capital()
+                + additional_investments.get(month)
+                + liability_payments.get(month)
+            );
+        }
+        
+        private double get_prev_invested_capital() {
+            if (month == 0) {
+                return init_equity;
+            } else {
+                return invested_capital.get(month-1);
+            }
+        }
         
         private void append_effective_income() {
-            
+            // Liquid income + unrealized_appreciation
+            effective_income.add(
+                cash_flow.get(month) + unrealized_appreciation.get(month)
+            );
         }
         
         private void append_extrapolated_ROI() {
-            
+            double monthly_ROI = effective_income.get(month) / equity.get(month);
+            annual_ROI_extrapolated.add(Math.pow(1 + monthly_ROI, 12));
         }
         
         
