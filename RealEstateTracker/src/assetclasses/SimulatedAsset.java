@@ -10,18 +10,19 @@ public class SimulatedAsset {
     public double init_liabilities;
     public double init_asset_value;
     
-    public ArrayList<Double> asset_value;
     public ArrayList<Double> revenue;
     public ArrayList<Double> expenses;
     public ArrayList<Double> liability_payments;
     public ArrayList<Double> additional_investments;
+    public ArrayList<Double> capital_gains_month; // Aka change in equity not due to liability payment or invesment
+    
     
     // CALCULABLE FROM ABOVE FIELDS
     // THESE WILL BE UPDATED BY UNIVERSAL METHODS
     public ArrayList<Double> cash_flow;
-    public ArrayList<Double> unrealized_appreciation; // Aka change in equity not due to liability payment or invesment
     public ArrayList<Double> liabilities;
     public ArrayList<Double> equity;
+    public ArrayList<Double> asset_value;
     public ArrayList<Double> invested_capital; // Aka how much income you've invested
     public ArrayList<Double> effective_income;
     public ArrayList<Double> annual_ROI_extrapolated;
@@ -34,7 +35,7 @@ public class SimulatedAsset {
         cash_flow = new ArrayList<Double>();
         liabilities = new ArrayList<Double>();
         equity = new ArrayList<Double>();
-        unrealized_appreciation = new ArrayList<Double>();
+        capital_gains_month = new ArrayList<Double>();
         effective_income = new ArrayList<Double>();
         annual_ROI_extrapolated = new ArrayList<Double>();
         additional_investments = new ArrayList<Double>();
@@ -45,6 +46,7 @@ public class SimulatedAsset {
     
     public void reset() {
         month = 0;
+        init_asset_value = init_equity + init_liabilities;
         asset_value.clear();
         revenue.clear();
         expenses.clear();
@@ -52,15 +54,17 @@ public class SimulatedAsset {
         cash_flow.clear();
         liabilities.clear();
         equity.clear();
-        unrealized_appreciation.clear();
+        capital_gains_month.clear();
         effective_income.clear();
         annual_ROI_extrapolated.clear();
+        additional_investments.clear();
+        invested_capital.clear();
     }
     
     public void extend() {
         
         append_cash_flow();
-        append_unrealized_appreciation();
+        append_asset_value();
         append_liabilities();
         append_equity();
         append_invested_capital();
@@ -79,17 +83,19 @@ public class SimulatedAsset {
     }
     
     
-    private void append_unrealized_appreciation() {
-        unrealized_appreciation.add(  
-            asset_value_change() - additional_investments.get(month)
+    private void append_asset_value() {
+        asset_value.add(  
+            prev_asset_value() 
+            + additional_investments.get(month)
+            + capital_gains_month.get(month)
         );
     }
     
-    private double asset_value_change() {
+    private double prev_asset_value() {
         if (month == 0) {
-            return asset_value.get(month) - init_asset_value;
+            return init_asset_value;
         } else {
-            return asset_value.get(month) - asset_value.get(month-1);
+            return asset_value.get(month-1);
         }
     }
     
@@ -109,10 +115,7 @@ public class SimulatedAsset {
     
     
     private void append_equity() { 
-        double old_equity = get_prev_equity();
-        double equity_change = get_equity_change();
-        
-        equity.add(old_equity + equity_change);
+        equity.add(get_prev_equity() + get_equity_change());
     }
     
     private double get_prev_equity() {
@@ -127,7 +130,7 @@ public class SimulatedAsset {
         double change = 0;
         change += additional_investments.get(month);
         change += liability_payments.get(month);
-        change += unrealized_appreciation.get(month);
+        change += capital_gains_month.get(month);
         return change;
     }
     
@@ -149,9 +152,8 @@ public class SimulatedAsset {
     }
     
     private void append_effective_income() {
-        // Liquid income + unrealized_appreciation
         effective_income.add(
-            cash_flow.get(month) + unrealized_appreciation.get(month)
+            cash_flow.get(month) + capital_gains_month.get(month)
         );
     }
     
@@ -162,7 +164,7 @@ public class SimulatedAsset {
             return;
         }
         double monthly_ROI = effective_income.get(month) / equity.get(month);
-        annual_ROI_extrapolated.add(Math.pow(1 + monthly_ROI, 12));
+        annual_ROI_extrapolated.add(Math.pow(1 + monthly_ROI, 12) - 1);
     }
     
     
