@@ -1,10 +1,10 @@
 package assetclasses;
 
 public abstract class BasicAsset {
-    SimulatedAsset simulation;
-	double init_liabilities;
-	double init_equity;
-	double init_asset_value;
+    public SimulatedAsset simulation;
+	public double init_liabilities;
+	public double init_equity;
+	public double init_asset_value;
     
     
     public BasicAsset(double sum_liabilities, double sum_equity, double asset_value) {
@@ -15,6 +15,19 @@ public abstract class BasicAsset {
     }
     
     protected abstract void run_simulation(int num_months);
+    
+    
+    public void set_init_equity(double equity) {
+        init_equity = equity;
+    }
+    
+    public void set_init_liability(double liability) {
+        init_liabilities = liability;
+    }
+    
+    public void set_init_asset_value(double asset_value) {
+        init_asset_value = asset_value;
+    }
     
     protected void set_init_sim_vals() {
         simulation.init_asset_value = init_asset_value;

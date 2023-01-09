@@ -18,6 +18,13 @@
             "mainClass": "App",
             "projectName": "RealEstateTracker_49774164",
             "vmArgs": "-enableassertions"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "-enableassertions"
         }
     ]
 }

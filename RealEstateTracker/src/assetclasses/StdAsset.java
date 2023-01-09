@@ -14,7 +14,7 @@ public class StdAsset extends BasicAsset {
     HashMap<String, Double> fractional_expenses;  // {"name" : fraction_of_assets}
 	HashMap<String, Double> liability_repayments; // {"name" : amount} 
     
-    StdAsset(double sum_liabilities, double sum_equity, double asset_value) {
+    public StdAsset(double sum_liabilities, double sum_equity, double asset_value) {
         super(sum_liabilities, sum_equity, asset_value);
         asset_appreciate_rate = 0;
         additional_monthly_investment = 0;
@@ -75,7 +75,7 @@ public class StdAsset extends BasicAsset {
         if (simulation.month == 0) {
             return init_asset_value;
         } else {
-            return simulation.asset_value.get(simulation.month);
+            return simulation.asset_value.get(simulation.month-1);
         }
     }
     
@@ -86,7 +86,7 @@ public class StdAsset extends BasicAsset {
     }
     
     private double get_frac_revenue_sum() {
-        double frac_sum = 1;
+        double frac_sum = 0;
         for (Double val : fractional_revenues.values()) {
             frac_sum += val;
         }
@@ -109,7 +109,7 @@ public class StdAsset extends BasicAsset {
     }
     
     private double get_frac_expense_sum() {
-        double frac_sum = 1;
+        double frac_sum = 0;
         for (Double val : fractional_expenses.values()) {
             frac_sum += val;
         }
