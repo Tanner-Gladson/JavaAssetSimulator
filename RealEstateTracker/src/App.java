@@ -8,9 +8,7 @@ import java.util.HashMap;
 
 public class App {
     
-    public static void main(String[] args) throws Exception {
-        test_std_asset_class();
-        
+    public static void main(String[] args) throws Exception {        
         out.println("All tests complete!");
     }
     

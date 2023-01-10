@@ -71,7 +71,7 @@ public class StdAsset extends BasicAsset {
     }
     
     
-    private double get_simulated_asset_value() {
+    protected double get_simulated_asset_value() {
         if (simulation.month == 0) {
             return init_asset_value;
         } else {
@@ -85,7 +85,7 @@ public class StdAsset extends BasicAsset {
         simulation.revenue.add(revenue);
     }
     
-    private double get_frac_revenue_sum() {
+    protected double get_frac_revenue_sum() {
         double frac_sum = 0;
         for (Double val : fractional_revenues.values()) {
             frac_sum += val;
@@ -94,7 +94,7 @@ public class StdAsset extends BasicAsset {
         return frac_sum * get_simulated_asset_value();
     }
     
-    private double get_static_revenue_sum() {
+    protected double get_static_revenue_sum() {
         double static_sum = 0;
         for (Double val : static_revenues.values() ) {
             static_sum += val;
@@ -108,7 +108,7 @@ public class StdAsset extends BasicAsset {
         simulation.expenses.add(expenses);
     }
     
-    private double get_frac_expense_sum() {
+    protected double get_frac_expense_sum() {
         double frac_sum = 0;
         for (Double val : fractional_expenses.values()) {
             frac_sum += val;
@@ -117,7 +117,7 @@ public class StdAsset extends BasicAsset {
         return frac_sum * get_simulated_asset_value();
     }
     
-    private double get_static_expense_sum() {
+    protected double get_static_expense_sum() {
         double static_sum = 0;
         for (Double val : static_expenses.values() ) {
             static_sum += val;
@@ -130,7 +130,7 @@ public class StdAsset extends BasicAsset {
         simulation.liability_payments.add(get_liability_payments_sum());
     }
     
-    private double get_liability_payments_sum() {
+    protected double get_liability_payments_sum() {
         double sum = 0;
         for (Double val : liability_repayments.values()) {
             sum += val;
