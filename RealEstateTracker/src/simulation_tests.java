@@ -1,5 +1,5 @@
 import assetclasses.SimulatedAsset;
-import portfolioclasses.PortfolioClasses.*;
+import portfolioclasses.Portfolio.*;
 import static java.lang.System.out;
 import static java.util.Arrays.asList;
 import java.util.ArrayList;
