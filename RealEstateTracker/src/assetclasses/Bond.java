@@ -24,29 +24,20 @@ public class Bond extends BasicAsset {
         this.term_months = (int) maturity * 12;
         this.annual_coupon_yield = annual_coupon_yield;
         this.principal = principal;
-        
-        
     }
     
     
     protected void extend_revenue_ledger() {
         Ledger ledger = new Ledger();
         
-        
         if ( (simulation.month + 1) % return_freq == 0 && 
             !(simulation.month >= term_months)) 
         {
-            double interest_rate = annual_coupon_yield * (12 / return_freq);
+            double interest_rate = annual_coupon_yield * ( (double) return_freq / 12);
             ledger.add_transaction("Coupon Yield", interest_rate * principal);
-            simulation.revenue_ledger.add(ledger);
         }
         
-        if (simulation.month + 1 == term_months) {
-            this.principal = 0;
-            ledger.add_transaction("Sale of Bond", simulation.get_prev_asset_value());
-        }
-        
-        simulation.revenue_ledger.add(ledger);
+        simulation.revenue_ledger.add(ledger); 
         
     }
     
@@ -61,7 +52,14 @@ public class Bond extends BasicAsset {
     
     
     protected void extend_additional_investment_ledger() {
-        simulation.additional_investments_ledger.add(new Ledger());
+        
+        Ledger ledger = new Ledger();
+        
+        if (simulation.month + 1 == term_months) {
+            ledger.add_transaction("Sale at Maturity", -principal);
+        }
+        
+        simulation.additional_investments_ledger.add(ledger);
     }
     
     
@@ -69,8 +67,7 @@ public class Bond extends BasicAsset {
         Ledger ledger = new Ledger();
         
         if (simulation.month + 1 == term_months) {
-            this.principal = 0;
-            ledger.add_transaction("Sale of Bond", -simulation.get_prev_asset_value());
+            ledger.add_transaction("Maturity", principal - simulation.get_prev_asset_value());
         }
         
         simulation.capital_gains_ledger.add(ledger);

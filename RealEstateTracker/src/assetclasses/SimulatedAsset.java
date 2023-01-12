@@ -192,7 +192,10 @@ public class SimulatedAsset {
     
     private void append_effective_income() {
         effective_income.add(
-            cash_flow.get(month) + capital_gains_month.get(month)
+            capital_gains_month.get(month) 
+            + revenue.get(month) 
+            - expenses.get(month)
+            - liability_payments.get(month)
         );
     }
     
