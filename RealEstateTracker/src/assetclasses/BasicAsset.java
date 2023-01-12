@@ -56,15 +56,6 @@ public abstract class BasicAsset {
         simulation.init_asset_value = asset_value;
     }
     
-    protected double get_simulated_asset_value() {
-        if (simulation.month == 0) {
-            return simulation.init_asset_value;
-        } else {
-            return simulation.asset_value.get(simulation.month-1);
-        }
-    }
-    
-    
     protected abstract void extend_revenue_ledger();
 	protected abstract void extend_expenses_ledger();
     protected abstract void extend_liability_payments_ledger();

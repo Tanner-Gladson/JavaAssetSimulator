@@ -33,6 +33,11 @@ public class SimulatedAsset {
     public ArrayList<Double> annual_ROI_extrapolated;
     
     public SimulatedAsset() {
+        revenue_ledger = new ArrayList<Ledger>();
+        expense_ledger = new ArrayList<Ledger>();
+        liability_payments_ledger = new ArrayList<Ledger>();
+        additional_investments_ledger = new ArrayList<Ledger>();
+        capital_gains_ledger = new ArrayList<Ledger>();
         asset_value = new ArrayList<Double>();
         revenue = new ArrayList<Double>();
         expenses = new ArrayList<Double>();
@@ -119,13 +124,13 @@ public class SimulatedAsset {
     
     private void append_asset_value() {
         asset_value.add(  
-            prev_asset_value() 
+            get_prev_asset_value() 
             + additional_investments.get(month)
             + capital_gains_month.get(month)
         );
     }
     
-    private double prev_asset_value() {
+    public double get_prev_asset_value() {
         if (month == 0) {
             return init_asset_value;
         } else {

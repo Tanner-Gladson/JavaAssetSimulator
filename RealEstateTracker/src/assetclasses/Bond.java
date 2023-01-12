@@ -8,12 +8,12 @@ public class Bond extends BasicAsset {
     
     
     
-    Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield) {
+    public Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield) {
         super(0, purchase_price, purchase_price);
         set_fields(principal, maturity, annual_coupon_yield);
     }
     
-    Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield, int payment_freq) {
+    public Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield, int payment_freq) {
         super(0, purchase_price, purchase_price);
         this.return_freq = payment_freq;
         set_fields(principal, maturity, annual_coupon_yield);
@@ -33,10 +33,17 @@ public class Bond extends BasicAsset {
         Ledger ledger = new Ledger();
         
         
-        if ( (simulation.month + 1) % return_freq == 0) {
+        if ( (simulation.month + 1) % return_freq == 0 && 
+            !(simulation.month >= term_months)) 
+        {
             double interest_rate = annual_coupon_yield * (12 / return_freq);
             ledger.add_transaction("Coupon Yield", interest_rate * principal);
             simulation.revenue_ledger.add(ledger);
+        }
+        
+        if (simulation.month + 1 == term_months) {
+            this.principal = 0;
+            ledger.add_transaction("Sale of Bond", simulation.get_prev_asset_value());
         }
         
         simulation.revenue_ledger.add(ledger);
@@ -59,7 +66,14 @@ public class Bond extends BasicAsset {
     
     
     protected void extend_capital_gains_ledger() {
-        simulation.capital_gains_ledger.add(new Ledger());
+        Ledger ledger = new Ledger();
+        
+        if (simulation.month + 1 == term_months) {
+            this.principal = 0;
+            ledger.add_transaction("Sale of Bond", -simulation.get_prev_asset_value());
+        }
+        
+        simulation.capital_gains_ledger.add(ledger);
     }
     
 }
