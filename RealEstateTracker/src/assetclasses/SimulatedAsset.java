@@ -2,6 +2,7 @@ package assetclasses;
 import java.util.ArrayList;
 import java.lang.Math;
 
+
 public class SimulatedAsset {
         
     public int month = 0;
@@ -10,15 +11,19 @@ public class SimulatedAsset {
     public double init_liabilities;
     public double init_asset_value;
     
+    public ArrayList<Ledger> revenue_ledger;
+    public ArrayList<Ledger> expense_ledger;
+    public ArrayList<Ledger> liability_payments_ledger;
+    public ArrayList<Ledger> additional_investments_ledger;
+    public ArrayList<Ledger> capital_gains_ledger;
+    
+    
     public ArrayList<Double> revenue;
     public ArrayList<Double> expenses;
     public ArrayList<Double> liability_payments;
     public ArrayList<Double> additional_investments;
     public ArrayList<Double> capital_gains_month; // Aka change in equity not due to liability payment or invesment
     
-    
-    // CALCULABLE FROM ABOVE FIELDS
-    // THESE WILL BE UPDATED BY UNIVERSAL METHODS
     public ArrayList<Double> cash_flow;
     public ArrayList<Double> liabilities;
     public ArrayList<Double> equity;
@@ -63,6 +68,12 @@ public class SimulatedAsset {
     
     public void extend() {
         
+        append_revenue();
+        append_expenses();
+        append_liability_payments();
+        append_additional_investment();
+        append_capital_gains();
+        
         append_cash_flow();
         append_asset_value();
         append_liabilities();
@@ -73,6 +84,29 @@ public class SimulatedAsset {
         append_extrapolated_ROI();
         month += 1;
     }
+    
+    
+    private void append_revenue() {
+        revenue.add(revenue_ledger.get(month).total());
+    }
+    
+	private void append_expenses() {
+        expenses.add(expense_ledger.get(month).total());
+    }
+    
+    private void append_liability_payments() {
+        liability_payments.add(liability_payments_ledger.get(month).total());
+    }
+    
+    private void append_additional_investment() {
+        additional_investments.add(additional_investments_ledger.get(month).total());
+    }
+    
+    private void append_capital_gains() {
+        capital_gains_month.add(capital_gains_ledger.get(month).total());
+    }
+    
+    
     
     private void append_cash_flow() {
         double inc = revenue.get(month);

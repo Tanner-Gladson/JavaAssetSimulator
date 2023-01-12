@@ -1,8 +1,6 @@
 package assetclasses;
 
-import java.security.Principal;
-
-public class Bond extends StdAsset {
+public class Bond extends BasicAsset {
     int term_months;
     int return_freq = 6;
     double coupon_yield;
