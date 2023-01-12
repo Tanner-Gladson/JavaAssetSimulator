@@ -3,45 +3,63 @@ package assetclasses;
 public class Bond extends BasicAsset {
     int term_months;
     int return_freq = 6;
-    double coupon_yield;
+    double annual_coupon_yield;
     double principal;
     
     
-    // TODO: Purchase price & Asset Value != principal
-    Bond(double principal, double maturity, double annual_coupon_yield) {
-        super(0, principal, principal);
+    
+    Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield) {
+        super(0, purchase_price, purchase_price);
         set_fields(principal, maturity, annual_coupon_yield);
     }
     
-    Bond(double principal, double maturity, double annual_coupon_yield, int payment_freq) {
-        super(0, principal, principal);
-        return_freq = payment_freq;
+    Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield, int payment_freq) {
+        super(0, purchase_price, purchase_price);
+        this.return_freq = payment_freq;
         set_fields(principal, maturity, annual_coupon_yield);
     }
     
     
     protected void set_fields(double principal, double maturity, double annual_coupon_yield) {
-        term_months = (int) maturity * 12;
-        coupon_yield = annual_coupon_yield;
+        this.term_months = (int) maturity * 12;
+        this.annual_coupon_yield = annual_coupon_yield;
         this.principal = principal;
         
-        double interest_rate = coupon_yield * (12 / return_freq);
-        fractional_revenues.put("Coupon Yield", interest_rate);
+        
     }
     
     
-    protected void extend_simulation_revenue() {
+    protected void extend_revenue_ledger() {
+        Ledger ledger = new Ledger();
         
-        if (simulation.month == 0 && return_freq != 1) {
-            simulation.revenue.add(0.0);
+        
+        if ( (simulation.month + 1) % return_freq == 0) {
+            double interest_rate = annual_coupon_yield * (12 / return_freq);
+            ledger.add_transaction("Coupon Yield", interest_rate * principal);
+            simulation.revenue_ledger.add(ledger);
         }
         
-        if (simulation.month % return_freq == 0) {
-            double revenue = get_frac_revenue_sum() * principal;
-            simulation.revenue.add(revenue);
-        } else {
-            simulation.revenue.add(0.0);
-        }
+        simulation.revenue_ledger.add(ledger);
         
     }
+    
+	protected void extend_expenses_ledger() {
+        simulation.expense_ledger.add(new Ledger());
+    }
+    
+    
+    protected void extend_liability_payments_ledger() {
+        simulation.liability_payments_ledger.add(new Ledger());
+    }
+    
+    
+    protected void extend_additional_investment_ledger() {
+        simulation.additional_investments_ledger.add(new Ledger());
+    }
+    
+    
+    protected void extend_capital_gains_ledger() {
+        simulation.capital_gains_ledger.add(new Ledger());
+    }
+    
 }
