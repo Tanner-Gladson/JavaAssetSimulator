@@ -1,8 +1,9 @@
 package portfolioclasses;
 import javax.sound.sampled.Port;
-import java.util.ArrayList;
 
-import assetclasses.*;
+import assetinterfaces.*;
+
+import java.util.ArrayList;
 
 public class SimulatedPortfolio extends SimulatedAsset {
     public Portfolio portfolio;
@@ -15,30 +16,17 @@ public class SimulatedPortfolio extends SimulatedAsset {
     }
     
     private void simulate_self(int num_months) {
-        simulate_assets(num_months);
-        copy_simulations();
-        set_init_values();
-        
-        for (int i = 0; i < num_months; i++) {
-            extend_revenue_ledger();
-            extend_expenses_ledger();
-            extend_liability_payments_ledger();
-            extend_additional_investment_ledger();
-            extend_capital_gains_ledger();
-            
-            this.extend();
-        }
     }
     
     
     private void simulate_assets(int num_months) {
-        for (BasicAsset asset : portfolio.assets) {
+        for (Asset asset : portfolio.assets) {
             asset.run_simulation(num_months);
         }
     }
     
     private void copy_simulations() {
-        for (BasicAsset asset : portfolio.assets) {
+        for (Asset asset : portfolio.assets) {
             simulations.add(asset.simulation);
         }
     }
@@ -52,7 +40,7 @@ public class SimulatedPortfolio extends SimulatedAsset {
     
     
     
-    protected void extend_revenue_ledger() {
+    protected void append_revenue_ledger() {
         Ledger ledger = new Ledger();
         
         for (SimulatedAsset sim : simulations) {
@@ -62,7 +50,7 @@ public class SimulatedPortfolio extends SimulatedAsset {
         revenue_ledgers.add(ledger);
     }
     
-	protected void extend_expenses_ledger() {
+	protected void append_expenses_ledger() {
         Ledger ledger = new Ledger();
         
         for (SimulatedAsset sim : simulations) {
@@ -72,34 +60,34 @@ public class SimulatedPortfolio extends SimulatedAsset {
         expense_ledgers.add(ledger);
     }
     
-    protected void extend_liability_payments_ledger() {
+    protected void append_liability_payments_ledger() {
         Ledger ledger = new Ledger();
         
         for (SimulatedAsset sim : simulations) {
             ledger.add_transaction(sim.name, sim.liability_payments.get(month));
         }
         
-        liability_payments_ledger.add(ledger);
+        liability_payments_ledgers.add(ledger);
     }
     
-    protected void extend_additional_investment_ledger() {
+    protected void append_additional_investment_ledger() {
         Ledger ledger = new Ledger();
         
         for (SimulatedAsset sim : simulations) {
             ledger.add_transaction(sim.name, sim.additional_investments.get(month));
         }
         
-        additional_investments_ledger.add(ledger);
+        additional_investments_ledgers.add(ledger);
     }
     
-    protected void extend_capital_gains_ledger() {
+    protected void append_capital_gains_ledger() {
         Ledger ledger = new Ledger();
         
         for (SimulatedAsset sim : simulations) {
             ledger.add_transaction(sim.name, sim.capital_gains_month.get(month));
         }
         
-        capital_gains_ledger.add(ledger);
+        capital_gains_ledgers.add(ledger);
     }
     
     @Override
