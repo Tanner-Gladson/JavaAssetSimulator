@@ -12,7 +12,7 @@ public class SimulatedAsset {
     public double init_liabilities;
     public double init_asset_value;
     
-    public ArrayList<Ledger> revenue_ledger;
+    public ArrayList<Ledger> revenue_ledgers;
     public ArrayList<Ledger> expense_ledger;
     public ArrayList<Ledger> liability_payments_ledger;
     public ArrayList<Ledger> additional_investments_ledger;
@@ -36,7 +36,7 @@ public class SimulatedAsset {
     public SimulatedAsset(String name) {
         this.name = name;
         
-        revenue_ledger = new ArrayList<Ledger>();
+        revenue_ledgers = new ArrayList<Ledger>();
         expense_ledger = new ArrayList<Ledger>();
         liability_payments_ledger = new ArrayList<Ledger>();
         additional_investments_ledger = new ArrayList<Ledger>();
@@ -95,7 +95,7 @@ public class SimulatedAsset {
     
     
     private void append_revenue() {
-        revenue.add(revenue_ledger.get(month).total());
+        revenue.add(revenue_ledgers.get(month).total());
     }
     
 	private void append_expenses() {

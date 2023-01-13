@@ -37,7 +37,7 @@ public class Bond extends BasicAsset {
             ledger.add_transaction("Coupon Yield", interest_rate * principal);
         }
         
-        simulation.revenue_ledger.add(ledger); 
+        simulation.revenue_ledgers.add(ledger); 
         
     }
     
