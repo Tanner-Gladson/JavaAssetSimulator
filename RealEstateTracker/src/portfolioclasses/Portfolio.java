@@ -11,6 +11,8 @@ public class Portfolio {
         assets.add(asset);
     }
     
+    
+    
     public double get_init_equity_sum() {
         double sum = 0;
         for (BasicAsset asset : assets) {
