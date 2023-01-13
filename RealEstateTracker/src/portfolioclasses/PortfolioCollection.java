@@ -17,7 +17,12 @@ public class PortfolioCollection {
     
     public void simulate_portfolios(int num_months) {
         for (Portfolio p : portfolios) {
-            simulations.add(new SimulatedPortfolio(p.name, p, num_months));
+            simulations.add(new SimulatedPortfolio(p, num_months));
         }
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s, a portfolio collection", name);
     }
 }

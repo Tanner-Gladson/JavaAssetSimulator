@@ -73,4 +73,8 @@ public class Bond extends BasicAsset {
         simulation.capital_gains_ledger.add(ledger);
     }
     
+    @Override
+    public String toString() {
+        return String.format("%s, a bond", simulation.name);
+    }
 }

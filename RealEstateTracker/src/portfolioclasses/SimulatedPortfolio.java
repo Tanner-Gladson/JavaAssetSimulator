@@ -8,8 +8,8 @@ public class SimulatedPortfolio extends SimulatedAsset {
     public Portfolio portfolio;
     public ArrayList<SimulatedAsset> simulations = new ArrayList<SimulatedAsset>();
     
-    public SimulatedPortfolio(String name, Portfolio portfolio, int num_months) {
-        super(name);
+    public SimulatedPortfolio(Portfolio portfolio, int num_months) {
+        super(portfolio.name);
         this.portfolio = portfolio;
         simulate_self(num_months);
     }
@@ -100,6 +100,11 @@ public class SimulatedPortfolio extends SimulatedAsset {
         }
         
         capital_gains_ledger.add(ledger);
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s, a simulated portfolio", name);
     }
     
 }

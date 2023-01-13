@@ -39,4 +39,9 @@ public class Portfolio {
         return sum;
     }
     
+    @Override
+    public String toString() {
+        return String.format("%s, a portfolio", name);
+    }
+    
 }
