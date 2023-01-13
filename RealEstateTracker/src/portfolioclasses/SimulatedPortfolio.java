@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import assetclasses.*;
 
 public class SimulatedPortfolio extends SimulatedAsset {
-    Portfolio portfolio = new Portfolio();
+    public Portfolio portfolio;
     public ArrayList<SimulatedAsset> simulations = new ArrayList<SimulatedAsset>();
-    int month = 0;
     
     public SimulatedPortfolio(String name, Portfolio portfolio, int num_months) {
         super(name);
@@ -55,8 +54,6 @@ public class SimulatedPortfolio extends SimulatedAsset {
         Ledger ledger = new Ledger();
         
         for (SimulatedAsset sim : simulations) {
-            System.out.println(sim.name);
-            System.out.println(sim.revenue_ledgers.get(month));
             ledger.add_transaction(sim.name, sim.revenue.get(month));
         }
         
@@ -70,7 +67,7 @@ public class SimulatedPortfolio extends SimulatedAsset {
             ledger.add_transaction(sim.name, sim.expenses.get(month));
         }
         
-        expense_ledger.add(ledger);
+        expense_ledgers.add(ledger);
     }
     
     protected void extend_liability_payments_ledger() {

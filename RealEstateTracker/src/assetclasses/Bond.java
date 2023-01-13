@@ -42,7 +42,7 @@ public class Bond extends BasicAsset {
     }
     
 	protected void extend_expenses_ledger() {
-        simulation.expense_ledger.add(new Ledger());
+        simulation.expense_ledgers.add(new Ledger());
     }
     
     
