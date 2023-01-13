@@ -62,19 +62,43 @@ public class SimulatedPortfolio extends SimulatedAsset {
     }
     
 	protected void extend_expenses_ledger() {
+        Ledger ledger = new Ledger();
         
+        for (SimulatedAsset sim : simulations) {
+            ledger.add_transaction(sim.name, sim.expenses.get(month));
+        }
+        
+        expense_ledger.add(ledger);
     }
     
     protected void extend_liability_payments_ledger() {
+        Ledger ledger = new Ledger();
         
+        for (SimulatedAsset sim : simulations) {
+            ledger.add_transaction(sim.name, sim.liability_payments.get(month));
+        }
+        
+        liability_payments_ledger.add(ledger);
     }
     
     protected void extend_additional_investment_ledger() {
+        Ledger ledger = new Ledger();
         
+        for (SimulatedAsset sim : simulations) {
+            ledger.add_transaction(sim.name, sim.additional_investments.get(month));
+        }
+        
+        additional_investments_ledger.add(ledger);
     }
     
     protected void extend_capital_gains_ledger() {
+        Ledger ledger = new Ledger();
         
+        for (SimulatedAsset sim : simulations) {
+            ledger.add_transaction(sim.name, sim.capital_gains_month.get(month));
+        }
+        
+        capital_gains_ledger.add(ledger);
     }
     
 }
