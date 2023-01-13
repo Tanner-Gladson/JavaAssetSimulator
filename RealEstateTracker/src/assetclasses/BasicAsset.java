@@ -24,8 +24,8 @@ public abstract class BasicAsset {
     public SimulatedAsset simulation;
     
     
-    public BasicAsset(double sum_liabilities, double sum_equity, double asset_value) {
-        simulation = new SimulatedAsset();
+    public BasicAsset(String name, double sum_liabilities, double sum_equity, double asset_value) {
+        simulation = new SimulatedAsset(name);
         simulation.init_equity = sum_equity;
         simulation.init_liabilities = sum_liabilities;
         simulation.init_asset_value = asset_value;

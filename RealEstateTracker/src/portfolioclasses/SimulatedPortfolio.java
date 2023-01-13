@@ -9,16 +9,37 @@ public class SimulatedPortfolio extends SimulatedAsset {
     ArrayList<SimulatedAsset> simulations = new ArrayList<SimulatedAsset>();
     int month = 0;
     
-    SimulatedPortfolio(Portfolio portfolio, int num_months) {
-        super();
-        this.init_equity = portfolio.get_init_equity_sum();
-        this.init_liabilities = portfolio.get_init_liability_sum();
-        this.init_asset_value = portfolio.get_init_asset_value_sum();
+    SimulatedPortfolio(String name, Portfolio portfolio, int num_months) {
+        super(name);
+        this.portfolio = portfolio;
+        simulate_assets(num_months);
+        copy_simulations();
+        set_init_values();
         
         run_simulation(num_months);
     }
     
+    private void simulate_assets(int num_months) {
+        for (BasicAsset asset : portfolio.assets) {
+            asset.run_simulation(num_months);
+        }
+    }
+    
+    private void copy_simulations() {
+        for (BasicAsset asset : portfolio.assets) {
+            simulations.add(asset.simulation);
+        }
+    }
+    
+    private void set_init_values() {
+        this.init_equity = portfolio.get_init_equity_sum();
+        this.init_liabilities = portfolio.get_init_liability_sum();
+        this.init_asset_value = portfolio.get_init_asset_value_sum();
+    }
+    
+    
     public void run_simulation(int num_months) {
+        
         for (int i = 0; i < num_months; i++) {
             extend_revenue_ledger();
             extend_expenses_ledger();
@@ -30,9 +51,30 @@ public class SimulatedPortfolio extends SimulatedAsset {
         }
     }
     
-    protected void extend_revenue_ledger();
-	protected void extend_expenses_ledger();
-    protected void extend_liability_payments_ledger();
-    protected void extend_additional_investment_ledger();
-    protected void extend_capital_gains_ledger();
+    protected void extend_revenue_ledger() {
+        Ledger ledger = new Ledger();
+        
+        for (SimulatedAsset sim : simulations) {
+            ledger.add_transaction(sim.name, sim.revenue.get(month));
+        }
+        
+        revenue_ledger.add(ledger);
+    }
+    
+	protected void extend_expenses_ledger() {
+        
+    }
+    
+    protected void extend_liability_payments_ledger() {
+        
+    }
+    
+    protected void extend_additional_investment_ledger() {
+        
+    }
+    
+    protected void extend_capital_gains_ledger() {
+        
+    }
+    
 }

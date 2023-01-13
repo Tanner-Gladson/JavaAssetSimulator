@@ -4,7 +4,8 @@ import java.lang.Math;
 
 
 public class SimulatedAsset {
-        
+    
+    public String name;
     public int month = 0;
     // FROM ASSET ASSUMPTIONS
     public double init_equity;
@@ -32,7 +33,9 @@ public class SimulatedAsset {
     public ArrayList<Double> effective_income;
     public ArrayList<Double> annual_ROI_extrapolated;
     
-    public SimulatedAsset() {
+    public SimulatedAsset(String name) {
+        this.name = name;
+        
         revenue_ledger = new ArrayList<Ledger>();
         expense_ledger = new ArrayList<Ledger>();
         liability_payments_ledger = new ArrayList<Ledger>();

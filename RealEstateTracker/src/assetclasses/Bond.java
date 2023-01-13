@@ -8,13 +8,13 @@ public class Bond extends BasicAsset {
     
     
     
-    public Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield) {
-        super(0, purchase_price, purchase_price);
+    public Bond(String name, double purchase_price, double principal, double maturity, double annual_coupon_yield) {
+        super(name, 0, purchase_price, purchase_price);
         set_fields(principal, maturity, annual_coupon_yield);
     }
     
-    public Bond(double purchase_price, double principal, double maturity, double annual_coupon_yield, int payment_freq) {
-        super(0, purchase_price, purchase_price);
+    public Bond(String name, double purchase_price, double principal, double maturity, double annual_coupon_yield, int payment_freq) {
+        super(name, 0, purchase_price, purchase_price);
         this.return_freq = payment_freq;
         set_fields(principal, maturity, annual_coupon_yield);
     }
