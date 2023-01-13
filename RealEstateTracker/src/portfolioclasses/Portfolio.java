@@ -3,9 +3,13 @@ import java.util.ArrayList;
 import assetclasses.*;
 
 public class Portfolio {
+    String name;
     
     public ArrayList<BasicAsset> assets = new ArrayList<BasicAsset>();
     
+    public Portfolio(String name) {
+        this.name = name;
+    }
     
     public void add_asset(BasicAsset asset) {
         assets.add(asset);

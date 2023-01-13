@@ -11,12 +11,25 @@ public class SimulatedPortfolio extends SimulatedAsset {
     public SimulatedPortfolio(String name, Portfolio portfolio, int num_months) {
         super(name);
         this.portfolio = portfolio;
+        simulate_self(num_months);
+    }
+    
+    private void simulate_self(int num_months) {
         simulate_assets(num_months);
         copy_simulations();
         set_init_values();
         
-        run_simulation(num_months);
+        for (int i = 0; i < num_months; i++) {
+            extend_revenue_ledger();
+            extend_expenses_ledger();
+            extend_liability_payments_ledger();
+            extend_additional_investment_ledger();
+            extend_capital_gains_ledger();
+            
+            this.extend();
+        }
     }
+    
     
     private void simulate_assets(int num_months) {
         for (BasicAsset asset : portfolio.assets) {
@@ -37,18 +50,7 @@ public class SimulatedPortfolio extends SimulatedAsset {
     }
     
     
-    private void run_simulation(int num_months) {
-        
-        for (int i = 0; i < num_months; i++) {
-            extend_revenue_ledger();
-            extend_expenses_ledger();
-            extend_liability_payments_ledger();
-            extend_additional_investment_ledger();
-            extend_capital_gains_ledger();
-            
-            this.extend();
-        }
-    }
+    
     
     protected void extend_revenue_ledger() {
         Ledger ledger = new Ledger();
