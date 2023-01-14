@@ -1,13 +1,12 @@
 package bond;
-
 import assetinterfaces.Asset;
-import assetinterfaces.Ledger;
+import assetinterfaces.SimulatedAsset;
 
 public class Bond extends Asset {
-    int term_months;
-    int return_freq = 6;
-    double annual_coupon_yield;
-    double principal;
+    public int term_months;
+    public int return_freq = 6;
+    public double annual_coupon_yield;
+    public double principal;
     
     
     
@@ -20,6 +19,16 @@ public class Bond extends Asset {
         super(name, 0, purchase_price, purchase_price);
         this.return_freq = payment_freq;
         set_fields(principal, maturity, annual_coupon_yield);
+    }
+    
+    
+    // TODO: THIS IS A VERY POOR SOLUTION. Is there a better way to generate
+    // a list of interface objects from another list of interface objects,
+    // where different implimentations of the interface functions will
+    // have different constructors.
+    @Override
+    public SimulatedAsset create_simulation(int num_months) {
+        return new SimulatedBond(this, num_months);
     }
     
     

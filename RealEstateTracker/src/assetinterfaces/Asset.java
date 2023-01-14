@@ -1,11 +1,11 @@
 package assetinterfaces;
 
-public class Asset {
+public abstract class Asset {
     public SimulatedAsset simulation;
-    String name;
-    double init_equity;
-    double init_liabilities;
-    double init_asset_value;
+    public String name;
+    public double init_equity;
+    public double init_liabilities;
+    public double init_asset_value;
     
     
     public Asset(String name, double sum_liabilities, double sum_equity, double asset_value) {
@@ -14,19 +14,6 @@ public class Asset {
         this.init_liabilities = sum_liabilities;
         this.init_asset_value = asset_value;
     }
-
     
-    public void set_init_equity(double equity) {
-        simulation.init_equity = equity;
-    }
-    
-    public void set_init_liability(double liability) {
-        simulation.init_liabilities = liability;
-    }
-    
-    public void set_init_asset_value(double asset_value) {
-        simulation.init_asset_value = asset_value;
-    }
-    
-    
+    public abstract SimulatedAsset create_simulation(int num_months);
 }

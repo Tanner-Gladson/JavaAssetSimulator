@@ -1,40 +1,35 @@
 package portfolioclasses;
 import javax.sound.sampled.Port;
-
 import assetinterfaces.*;
 
 import java.util.ArrayList;
 
 public class SimulatedPortfolio extends SimulatedAsset {
-    public Portfolio portfolio;
+    public Portfolio config;
     public ArrayList<SimulatedAsset> simulations = new ArrayList<SimulatedAsset>();
     
     public SimulatedPortfolio(Portfolio portfolio, int num_months) {
-        super(portfolio.name);
-        this.portfolio = portfolio;
+        super(portfolio);
+        this.config = portfolio;
+        simulate_assets(num_months);
+        set_init_values();
         simulate_self(num_months);
     }
     
-    private void simulate_self(int num_months) {
-    }
+    private void simulate_self(int num_months);
     
     
     private void simulate_assets(int num_months) {
-        for (Asset asset : portfolio.assets) {
-            asset.run_simulation(num_months);
+        for (Asset asset : config.assets) {
+            simulations.add(asset.create_simulation(num_months));
         }
     }
     
-    private void copy_simulations() {
-        for (Asset asset : portfolio.assets) {
-            simulations.add(asset.simulation);
-        }
-    }
     
     private void set_init_values() {
-        this.init_equity = portfolio.get_init_equity_sum();
-        this.init_liabilities = portfolio.get_init_liability_sum();
-        this.init_asset_value = portfolio.get_init_asset_value_sum();
+        this.init_equity = config.get_init_equity_sum();
+        this.init_liabilities = config.get_init_liability_sum();
+        this.init_asset_value = config.get_init_asset_value_sum();
     }
     
     

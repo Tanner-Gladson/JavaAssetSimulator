@@ -4,17 +4,13 @@ import assetinterfaces.*;
 
 public class SimulatedBond extends SimulatedAsset {
     
-    Bond config;
+    public Bond config;
     
-    // LOGIC ERROR: Because I must call the super() constructor first, and 
-    // and the super constructor will run the simulation, I am unable to set
-    // the config in time
     public SimulatedBond(Bond config, int num_months) {
         super(config);
         this.config = config;
         run_simulation(num_months);
     }
-    
      
     protected void append_revenue_ledger() {
         Ledger ledger = new Ledger();
