@@ -1,7 +1,6 @@
 package assetinterfaces;
 
 public abstract class Asset {
-    public SimulatedAsset simulation;
     public String name;
     public double init_equity;
     public double init_liabilities;

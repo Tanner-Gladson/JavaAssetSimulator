@@ -52,7 +52,7 @@ public class SimulatedBond extends SimulatedAsset {
         Ledger ledger = new Ledger();
         
         if (month + 1 == config.term_months) {
-            ledger.add_transaction("Maturity", config.principal - config.simulation.get_prev_asset_value());
+            ledger.add_transaction("Maturity", config.principal - config.get_prev_asset_value());
         }
         
         capital_gains_ledgers.add(ledger);

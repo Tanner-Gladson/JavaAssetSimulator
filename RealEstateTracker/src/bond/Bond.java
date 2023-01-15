@@ -21,16 +21,11 @@ public class Bond extends Asset {
         set_fields(principal, maturity, annual_coupon_yield);
     }
     
-    
-    // TODO: THIS IS A VERY POOR SOLUTION. Is there a better way to generate
-    // a list of interface objects from another list of interface objects,
-    // where different implimentations of the interface functions will
-    // have different constructors.
     @Override
     public SimulatedAsset create_simulation(int num_months) {
         return new SimulatedBond(this, num_months);
     }
-    
+     
     
     protected void set_fields(double principal, double maturity, double annual_coupon_yield) {
         this.term_months = (int) maturity * 12;
@@ -40,6 +35,6 @@ public class Bond extends Asset {
     
     @Override
     public String toString() {
-        return String.format("%s, a bond", simulation.name);
+        return String.format("%s, a bond", name);
     }
 }

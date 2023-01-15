@@ -19,7 +19,9 @@ public class Portfolio extends Asset {
     
     
     @Override
-    public SimulatedAsset create_simulation(int num_months) {return null;}
+    public SimulatedAsset create_simulation(int num_months) {
+        return new SimulatedPortfolio(this, num_months);
+    }
     
     protected void udpate_inits() {
         this.init_equity = get_init_equity_sum();
@@ -30,7 +32,7 @@ public class Portfolio extends Asset {
     public double get_init_equity_sum() {
         double sum = 0;
         for (Asset asset : assets) {
-            sum += asset.simulation.init_equity;
+            sum += asset.init_equity;
         }
         return sum;
     }
@@ -38,7 +40,7 @@ public class Portfolio extends Asset {
     public double get_init_liability_sum() {
         double sum = 0;
         for (Asset asset : assets) {
-            sum += asset.simulation.init_liabilities;
+            sum += asset.init_liabilities;
         }
         return sum;
     }
@@ -46,7 +48,7 @@ public class Portfolio extends Asset {
     public double get_init_asset_value_sum() {
         double sum = 0;
         for (Asset asset : assets) {
-            sum += asset.simulation.init_asset_value;
+            sum += asset.init_asset_value;
         }
         return sum;
     }
