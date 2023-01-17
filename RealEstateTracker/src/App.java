@@ -5,10 +5,11 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import assetinterfaces.*;
 
 import javax.sound.sampled.Port;
 
-import assetinterfaces.*;
+import static assetinterfaces.AssetUtilities.simulation2xlsx;
 
 public class App {
     
@@ -18,7 +19,11 @@ public class App {
     
     
     public static void test_sim_2_xlsx() {
-        Port
+        Portfolio port = new Portfolio("Port 1");
+        
+        Bond bond1 = new Bond("Bond 1", );
+        
+        
         
         
         simulation2xlsx();
