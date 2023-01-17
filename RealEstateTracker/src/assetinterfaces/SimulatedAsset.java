@@ -137,7 +137,6 @@ public abstract class SimulatedAsset {
         }
     }
     
-    
     private void append_liabilities() {
         double old_liability = get_prev_liability();
         liabilities.add(old_liability - liability_payments.get(month));
