@@ -58,4 +58,15 @@ public class Portfolio extends Asset {
         return String.format("%s, a portfolio", name);
     }
     
+    public String summary() {
+        String s = "";
+        
+        s += name + ":\n";
+        for (Asset asset : assets) {
+            s += "  " + asset.name + "\n";
+        }
+        
+        return s;
+    }
+    
 }

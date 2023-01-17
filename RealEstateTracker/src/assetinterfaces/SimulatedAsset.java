@@ -88,6 +88,7 @@ public abstract class SimulatedAsset {
             
             append_effective_income();
             append_extrapolated_ROI();
+            month += 1;
         }
     }
     
