@@ -14,8 +14,9 @@ import static assetinterfaces.AssetUtilities.simulation2xlsx;
 public class App {
     
     public static void main(String[] args) throws Exception {        
-        out.println("All tests complete!");
         test_sim_2_xlsx();
+
+        out.println("All tests complete!");
     }
     
     
