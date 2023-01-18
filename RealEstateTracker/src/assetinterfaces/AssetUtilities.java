@@ -23,11 +23,11 @@ public class AssetUtilities {
             XSSFSheet additional_investments = workbook.createSheet("Investments Ledger");
             XSSFSheet capital_gains = workbook.createSheet("Capital Gains Ledger");
             
-            ledgerOn2Sheet(sim.revenue_ledgers, revenue);
-            ledgerOn2Sheet(sim.expense_ledgers, expense);
-            ledgerOn2Sheet(sim.liability_payments_ledgers, liability_payments);
-            ledgerOn2Sheet(sim.additional_investments_ledgers, additional_investments);
-            ledgerOn2Sheet(sim.capital_gains_ledgers, capital_gains);
+            ledgerOn2Sheet(sim.revenue_ledgers, revenue, workbook);
+            ledgerOn2Sheet(sim.expense_ledgers, expense, workbook);
+            ledgerOn2Sheet(sim.liability_payments_ledgers, liability_payments, workbook);
+            ledgerOn2Sheet(sim.additional_investments_ledgers, additional_investments, workbook);
+            ledgerOn2Sheet(sim.capital_gains_ledgers, capital_gains, workbook);
             
 
             FileOutputStream outfile = new FileOutputStream("ExcelExports/temp.xlsx");
@@ -41,7 +41,7 @@ public class AssetUtilities {
         
     }
     
-    private static void ledgerOn2Sheet(ArrayList<Ledger> ledgers, XSSFSheet sheet) {
+    private static void ledgerOn2Sheet(ArrayList<Ledger> ledgers, XSSFSheet sheet, XSSFWorkbook wb) {
         
         int max_ledger_length = 0;
         for (Ledger ledger : ledgers) {
@@ -50,11 +50,16 @@ public class AssetUtilities {
         
         
         // Create the header row
+        XSSFCellStyle style = wb.createCellStyle();
+        XSSFFont font = wb.createFont();
+        font.setBold(true);
+        style.setFont(font);
         XSSFRow header_row = sheet.createRow(0);
         for (int month = 0; month < ledgers.size(); month++) {
             XSSFCell cell = header_row.createCell(month * 3);
             cell.setCellValue(String.format("Month: %d", month));
-            cell.setCellStyle(CellStyle.);
+            cell.setCellStyle(style);
+            
         }
         
         
@@ -105,9 +110,15 @@ public class AssetUtilities {
         XSSFSheet data = workbook.createSheet("Data");
         
         // Write the header
+        XSSFCellStyle style = workbook.createCellStyle();
+        XSSFFont font = workbook.createFont();
+        font.setBold(true);
+        style.setFont(font);
+        
         XSSFRow header = data.createRow(0);
         for (int i = 0; i < header_names.size(); i++) {
             XSSFCell cell = header.createCell(i, CellType.STRING);
+            cell.setCellStyle(style);
             cell.setCellValue(header_names.get(i));
         }
         
