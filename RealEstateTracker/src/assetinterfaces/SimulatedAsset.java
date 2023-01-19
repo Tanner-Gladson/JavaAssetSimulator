@@ -68,7 +68,12 @@ public abstract class SimulatedAsset {
     
     protected void run_simulation(int num_months) {
         for (int i = 0; i < num_months; i++) {
-            append_revenue_ledger();
+            simulate_month();
+        }
+    }
+    
+    protected void simulate_month() {
+        append_revenue_ledger();
             append_expenses_ledger();
             append_liability_payments_ledger();
             append_additional_investment_ledger();
@@ -89,7 +94,6 @@ public abstract class SimulatedAsset {
             append_effective_income();
             append_extrapolated_ROI();
             month += 1;
-        }
     }
     
     private void append_revenue() {

@@ -8,6 +8,7 @@ public class SimulatedStock extends SimulatedAsset {
     
     ArrayList<Double> num_shares = new ArrayList<Double>();
     ArrayList<Double> share_price = new ArrayList<Double>();
+    ArrayList<Double> dividend_income = new ArrayList<Double>();
     
     public SimulatedStock(Stock config, int num_months) {
         super(config);
@@ -16,22 +17,24 @@ public class SimulatedStock extends SimulatedAsset {
     }
     
     @Override
-    public void run_simulation(int num_months) {
+    public void simulate_month() {
         
-        // Update the share price/
         
-        // Calculate dividend income
-        // Update the number of shares (e.g, dividend reinvesting)
+        append_share_price();
+        append_capital_gains_ledger();
         
-        // => calculate revenue
-        // => find additional investments
-        // => calculate capital gains
+        append_dividend_income();
+        reinvest_dividends();
         
-        super.run_simulation(num_months);
+        
+        super.simulate_month();
     }
     
     
-    public void change_share_price(double new_price) {
+   
+    
+    
+    public void append_share_price(double new_price) {
         share_price.add(new_price);
     }
     
@@ -42,34 +45,32 @@ public class SimulatedStock extends SimulatedAsset {
         num_shares.add(get_prev_num_shares() + num_new_shares);
     }
     
-    public double get_prev_share_price();
-    
-    public double get_prev_num_shares();
-    
-    
-    protected void append_revenue_ledger() {
-        Ledger ledger = new Ledger();
-        
-        
-        if (dividend_month() && !config.reinvesting_dividends) 
-        {
-            ledger.add_transaction("Dividends", get_dividend_yield());
+    public double get_prev_share_price() {
+        if (share_price.size() == 0) {
+            return config.init_share_price;
+        } else {
+            return share_price.get(month-1);
         }
-        
-        revenue_ledgers.add(ledger); 
+    }
+    
+    public double get_prev_num_shares() {
+        if (num_shares.size() == 0) {
+            return config.init_num_shares;
+        } else {
+            return num_shares.get(month-1);
+        }
     }
     
     
-    protected void append_additional_investment_ledger() {
-        Ledger ledger = new Ledger();
-        
-        if (dividend_month() && config.reinvesting_dividends) 
-        {               
-            ledger.add_transaction("Dividends Reinvestment", get_dividend_yield());
-        }
-        
-        additional_investments_ledgers.add(ledger); 
-    }
+    protected void append_capital_gains_ledger();
+    
+    
+    protected void append_revenue_ledger();
+    
+    
+    protected void append_additional_investment_ledger();
+    
+    
     
     private boolean dividend_month() {
         return (month + 1) % config.dividend_period == 0;
@@ -82,8 +83,8 @@ public class SimulatedStock extends SimulatedAsset {
     }
     
     
-    // TODO: Should derive capital gains from the change in stock price
-    protected void append_capital_gains_ledger();
+    
+    
     
     
     protected void append_expenses_ledger() {
