@@ -23,7 +23,7 @@ public class App {
     public static void test_sim_2_xlsx() {
         Portfolio port = new Portfolio("Portfolio 1");
         Bond bond1 = new Bond("Bond 1", 100.0, 100.0, 1.0, .1);
-        Bond bond2 = new Bond("Bond 2", 5.0, 10.0, 1.0, .1);
+        Bond bond2 = new Bond("Bond 2", 5.0, 10.0, 1.0, 0);
 
         port.add_asset(bond1);
         port.add_asset(bond2);
@@ -31,5 +31,7 @@ public class App {
         SimulatedPortfolio sim = new SimulatedPortfolio(port, 14);
         
         simulation2xlsx(sim);
+        
+        simulation2xlsx(bond2.create_simulation(14));
     }
 }
