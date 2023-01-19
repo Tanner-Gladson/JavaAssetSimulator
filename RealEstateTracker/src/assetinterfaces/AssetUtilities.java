@@ -84,24 +84,6 @@ public class AssetUtilities {
             }
             
         }
-        /*
-        int row_num = 0;
-        for (int month = 0; month < ledgers.size(); month++) {
-            
-            for (String key : ledgers.get(month).keySet()) {
-                XSSFRow ledger_row = sheet.createRow(row_num);
-                
-                XSSFCell name_cell = ledger_row.createCell(0);
-                name_cell.setCellValue(key);
-                
-                XSSFCell value_cell = ledger_row.createCell(1);
-                value_cell.setCellValue(ledgers.get(month).get(key));
-            
-                row_num++;
-            }
-            row_num++;
-        }
-        */
     }
     
     private static void write_data(XSSFWorkbook workbook, SimulatedAsset sim) {
