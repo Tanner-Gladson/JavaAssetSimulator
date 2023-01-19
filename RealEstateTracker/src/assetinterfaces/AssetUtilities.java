@@ -30,7 +30,7 @@ public class AssetUtilities {
             ledgerOn2Sheet(sim.capital_gains_ledgers, capital_gains, workbook);
             
 
-            FileOutputStream outfile = new FileOutputStream("ExcelExports/temp.xlsx");
+            FileOutputStream outfile = new FileOutputStream("ExcelExports/" + sim.name + ".xlsx");
             workbook.write(outfile);
             workbook.close();
             

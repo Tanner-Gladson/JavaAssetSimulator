@@ -1,15 +1,50 @@
 package stock;
 
 import assetinterfaces.*;
+import java.util.ArrayList;
 
 public class SimulatedStock extends SimulatedAsset {
     Stock config;
+    
+    ArrayList<Double> num_shares = new ArrayList<Double>();
+    ArrayList<Double> share_price = new ArrayList<Double>();
     
     public SimulatedStock(Stock config, int num_months) {
         super(config);
         this.config = config;
         run_simulation(num_months);
     }
+    
+    @Override
+    public void run_simulation(int num_months) {
+        
+        // Update the share price/
+        
+        // Calculate dividend income
+        // Update the number of shares (e.g, dividend reinvesting)
+        
+        // => calculate revenue
+        // => find additional investments
+        // => calculate capital gains
+        
+        super.run_simulation(num_months);
+    }
+    
+    
+    public void change_share_price(double new_price) {
+        share_price.add(new_price);
+    }
+    
+    
+    public void purchase_shares(double value);
+    
+    public void change_num_shares(double num_new_shares) {
+        num_shares.add(get_prev_num_shares() + num_new_shares);
+    }
+    
+    public double get_prev_share_price();
+    
+    public double get_prev_num_shares();
     
     
     protected void append_revenue_ledger() {
@@ -43,20 +78,12 @@ public class SimulatedStock extends SimulatedAsset {
     private double get_dividend_yield() {
         return config.ann_dividend_per_share 
         * (config.dividend_period / 12.0)
-        * config.num_shares;
+        * config.init_num_shares;
     }
     
     
-    protected void append_capital_gains_ledger() {
-        Ledger ledger = new Ledger();
-        
-        ledger.add_transaction(
-            "Capital Appreciation",
-            config.num_shares * config.share_price * config.monthly_growth
-        );
-        
-        liability_payments_ledgers.add(ledger); 
-    }
+    // TODO: Should derive capital gains from the change in stock price
+    protected void append_capital_gains_ledger();
     
     
     protected void append_expenses_ledger() {

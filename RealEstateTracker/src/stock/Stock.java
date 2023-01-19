@@ -4,8 +4,8 @@ import assetinterfaces.SimulatedAsset;
 import java.lang.Math;
 
 public class Stock extends Asset {
-    double num_shares;
-    double share_price;
+    double init_num_shares;
+    double init_share_price;
     
     double monthly_growth = 0.10;
     double ann_dividend_per_share = 0.0;
@@ -20,8 +20,8 @@ public class Stock extends Asset {
             init_num_shares*init_share_price,
             init_num_shares*init_share_price
         );
-        this.num_shares = init_num_shares;
-        this.share_price = init_share_price;
+        this.init_num_shares = init_num_shares;
+        this.init_share_price = init_share_price;
     }
     
     public void set_growth_rate(double apy) {
