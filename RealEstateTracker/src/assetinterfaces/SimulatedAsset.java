@@ -172,12 +172,15 @@ public abstract class SimulatedAsset {
     }
     
     private void append_invested_capital() {
-        
-        invested_capital.add(
-            get_prev_invested_capital()
-            + additional_investments.get(month)
-            + liability_payments.get(month)
-        );
+        double base = get_prev_invested_capital()
+                    + additional_investments.get(month)
+                    + liability_payments.get(month);
+                    
+        if (base < 0) {
+            invested_capital.add(0.0);
+        } else {
+            invested_capital.add(base);
+        }
     }
     
     private double get_prev_invested_capital() {
