@@ -19,6 +19,9 @@ public class App {
         //test_stock1();
         //test_stock2();
         //test_stock3();
+        
+        // TODO: Create a special realestate2xlsx function
+        // so that you can track market value, too.
 
         out.println("All tests complete!");
     }

@@ -2,6 +2,7 @@ package realestate;
 
 import assetinterfaces.SimulatedAsset;
 import assetinterfaces.*;
+import java.util.ArrayList;
 
 public class SimulatedRealEstate extends SimulatedAsset {
     RealEstate config;
