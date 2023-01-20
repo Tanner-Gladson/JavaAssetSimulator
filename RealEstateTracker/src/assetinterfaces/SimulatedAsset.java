@@ -213,6 +213,4 @@ public abstract class SimulatedAsset {
         double monthly_ROI = effective_income.get(month) / equity.get(month);
         annual_ROI_extrapolated.add(Math.pow(1 + monthly_ROI, 12) - 1);
     }
-    
-    
 }

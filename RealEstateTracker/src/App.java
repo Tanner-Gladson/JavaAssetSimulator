@@ -23,6 +23,13 @@ public class App {
         out.println("All tests complete!");
     }
     
+    
+    
+    
+    
+    
+    
+    
     public static void test_stock1() {
         // No dividends
         
@@ -37,13 +44,9 @@ public class App {
         // With dividends, not reinvesting
         
         Stock stock = new Stock("Stock 2", 2.0, 5.0);
-        
         stock.set_dividends_amount(8);
         
-        
-        
         SimulatedAsset sim = stock.create_simulation(14);
-        
         simulation2xlsx(sim);
     }
     
