@@ -109,7 +109,7 @@ public class AssetUtilities {
         for (int month = 0; month < sim.month; month++) {
             XSSFRow row = data.createRow(month+1);
             XSSFCell c = row.createCell(0, CellType.NUMERIC);
-            c.setCellValue(month);
+            c.setCellValue(month+1);
             
             for (int i = 0; i < sim_data_fields.size(); i ++) {
                 XSSFCell cell = row.createCell(i+1, CellType.NUMERIC);
@@ -130,7 +130,7 @@ public class AssetUtilities {
         header_names.add("liabilities");
         header_names.add("equity");
         header_names.add("asset_value");
-        header_names.add("invested_capital");
+        header_names.add("capital_invested");
         header_names.add("effective_income");
         header_names.add("annual_ROI_extrapolated");
         return header_names;
@@ -147,7 +147,7 @@ public class AssetUtilities {
         sim_data_fields.add(sim.liabilities);
         sim_data_fields.add(sim.equity);
         sim_data_fields.add(sim.asset_value);
-        sim_data_fields.add(sim.invested_capital);
+        sim_data_fields.add(sim.capital_invested);
         sim_data_fields.add(sim.effective_income);
         sim_data_fields.add(sim.annual_ROI_extrapolated);
         return sim_data_fields;

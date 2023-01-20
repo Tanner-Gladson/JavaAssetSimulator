@@ -16,9 +16,9 @@ public class App {
     
     public static void main(String[] args) throws Exception {        
         //test_sim_2_xlsx();
-        test_stock1();
-        test_stock2();
-        test_stock3();
+        //test_stock1();
+        //test_stock2();
+        //test_stock3();
 
         out.println("All tests complete!");
     }
@@ -35,10 +35,29 @@ public class App {
     
     public static void test_stock2() {
         // With dividends, not reinvesting
+        
+        Stock stock = new Stock("Stock 2", 2.0, 5.0);
+        
+        stock.set_dividends_amount(8);
+        
+        
+        
+        SimulatedAsset sim = stock.create_simulation(14);
+        
+        simulation2xlsx(sim);
     }
     
     public static void test_stock3() {
         // With dividends and reinvesting
+        
+        Stock stock = new Stock("Stock 2", 2.0, 5.0);
+        
+        stock.set_dividends_amount(8);
+        stock.set_dividend_reinvesting_fraction(.50);
+        
+        SimulatedAsset sim = stock.create_simulation(14);
+        
+        simulation2xlsx(sim);
     }
     
     

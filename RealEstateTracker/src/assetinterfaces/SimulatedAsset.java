@@ -30,7 +30,7 @@ public abstract class SimulatedAsset {
     public ArrayList<Double> liabilities;
     public ArrayList<Double> equity;
     public ArrayList<Double> asset_value;
-    public ArrayList<Double> invested_capital; // Aka how much income you've invested
+    public ArrayList<Double> capital_invested; // Aka how much income you've invested
     public ArrayList<Double> effective_income;
     public ArrayList<Double> annual_ROI_extrapolated;
     
@@ -56,7 +56,7 @@ public abstract class SimulatedAsset {
         effective_income = new ArrayList<Double>();
         annual_ROI_extrapolated = new ArrayList<Double>();
         additional_investments = new ArrayList<Double>();
-        invested_capital = new ArrayList<Double>();
+        capital_invested = new ArrayList<Double>();
         
     }
     
@@ -181,9 +181,9 @@ public abstract class SimulatedAsset {
                     + liability_payments.get(month);
                     
         if (base < 0) {
-            invested_capital.add(0.0);
+            capital_invested.add(0.0);
         } else {
-            invested_capital.add(base);
+            capital_invested.add(base);
         }
     }
     
@@ -191,7 +191,7 @@ public abstract class SimulatedAsset {
         if (month == 0) {
             return init_equity;
         } else {
-            return invested_capital.get(month-1);
+            return capital_invested.get(month-1);
         }
     }
     
