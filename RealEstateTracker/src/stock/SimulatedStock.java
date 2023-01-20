@@ -18,34 +18,57 @@ public class SimulatedStock extends SimulatedAsset {
     
     @Override
     public void simulate_month() {
-        
-        
         append_share_price();
-        append_capital_gains_ledger();
-        
         append_dividend_income();
         reinvest_dividends();
-        
-        
         super.simulate_month();
     }
     
     
-   
     
+    protected void append_share_price() {
+        share_price.add(get_prev_share_price() + calculate_appreciation());
+    }
     
-    public void append_share_price(double new_price) {
-        share_price.add(new_price);
+    protected double calculate_appreciation() {
+        return get_prev_share_price() * config.monthly_growth;
     }
     
     
-    public void purchase_shares(double value);
     
-    public void change_num_shares(double num_new_shares) {
+    protected void append_dividend_income() {
+        
+        if ( (month+1) % config.dividend_period == 0) {
+            dividend_income.add(calculate_div_distribution());
+        } else {
+            dividend_income.add(0.0);
+        }
+    }
+    
+    protected double calculate_div_distribution() {
+        return get_prev_num_shares() * config.ann_dividend_per_share;
+    }
+    
+    
+    protected void reinvest_dividends() {
+        purchase_shares(calculate_reinvestment_dollars());
+    }
+    
+    protected double calculate_reinvestment_dollars() {
+        return dividend_income.get(month) * config.div_reinvest_frac;
+    }
+    
+    protected void purchase_shares(double value) {
+        change_num_shares(value / share_price.get(month));
+    }
+    
+    protected void change_num_shares(double num_new_shares) {
         num_shares.add(get_prev_num_shares() + num_new_shares);
     }
     
-    public double get_prev_share_price() {
+    
+    
+    protected double get_prev_share_price() {
         if (share_price.size() == 0) {
             return config.init_share_price;
         } else {
@@ -53,7 +76,7 @@ public class SimulatedStock extends SimulatedAsset {
         }
     }
     
-    public double get_prev_num_shares() {
+    protected double get_prev_num_shares() {
         if (num_shares.size() == 0) {
             return config.init_num_shares;
         } else {
@@ -62,34 +85,36 @@ public class SimulatedStock extends SimulatedAsset {
     }
     
     
-    protected void append_capital_gains_ledger();
-    
-    
-    protected void append_revenue_ledger();
-    
-    
-    protected void append_additional_investment_ledger();
-    
-    
-    
-    private boolean dividend_month() {
-        return (month + 1) % config.dividend_period == 0;
-    }
-    
-    private double get_dividend_yield() {
-        return config.ann_dividend_per_share 
-        * (config.dividend_period / 12.0)
-        * config.init_num_shares;
+    protected void append_capital_gains_ledger() {
+        Ledger ledger = new Ledger();
+        ledger.add_transaction("Market Growth", calculate_appreciation());
+        capital_gains_ledgers.add(ledger);
     }
     
     
+    protected void append_revenue_ledger() {
+        Ledger ledger = new Ledger();
+        
+        ledger.add_transaction(
+            "Dividend", 
+            calculate_div_distribution() - calculate_reinvestment_dollars()
+        );
+        
+        revenue_ledgers.add(ledger);
+    }
     
     
+    protected void append_additional_investment_ledger() {
+        Ledger ledger = new Ledger();
+        ledger.add_transaction("Dividend Reinvestment", calculate_reinvestment_dollars());
+        additional_investments_ledgers.add(ledger);
+    }
     
     
     protected void append_expenses_ledger() {
         expense_ledgers.add(new Ledger()); 
     }
+    
     
     protected void append_liability_payments_ledger() {
         liability_payments_ledgers.add(new Ledger()); 

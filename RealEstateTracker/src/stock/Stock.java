@@ -10,7 +10,7 @@ public class Stock extends Asset {
     double monthly_growth = 0.10;
     double ann_dividend_per_share = 0.0;
     int dividend_period = 3;
-    boolean reinvesting_dividends = false;
+    double div_reinvest_frac = 0.0;
     
     
     public Stock(String name, double init_num_shares, double init_share_price) {
@@ -36,8 +36,8 @@ public class Stock extends Asset {
         this.dividend_period = dividend_period_months;
     }
     
-    public void set_reinvesting_dividends(boolean reinvesting) {
-        this.reinvesting_dividends = reinvesting;
+    public void set_dividend_reinvesting_percent(double fraction) {
+        this.div_reinvest_frac = fraction;
     }
     
     
