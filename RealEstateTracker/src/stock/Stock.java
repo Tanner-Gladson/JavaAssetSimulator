@@ -25,7 +25,7 @@ public class Stock extends Asset {
     }
     
     public void set_growth_rate(double apy) {
-        this.monthly_growth = Math.pow(1 + apy, 1/12) - 1;
+        this.monthly_growth = Math.pow(1 + apy, 1.0/12.0) - 1;
     }
     
     public void set_dividends_amount(double ann_dividend_per_share) {
