@@ -200,7 +200,6 @@ public abstract class SimulatedAsset {
             capital_gains_month.get(month) 
             + revenue.get(month) 
             - expenses.get(month)
-            - liability_payments.get(month)
         );
     }
     

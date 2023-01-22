@@ -10,8 +10,8 @@ public class RealEstate extends Asset {
     public Double mortgage_maturity_months = 30.0 * 12;
     public Double mortgage_mpr = 0.064 / 12;
     public Double frac_manager_fee = 0.10;
-    public Double min_manager_fee = 0.0;
-    public Double monthly_property_tax_rate = Math.pow(1.02248, 1.0/12.0) - 1;
+    public Double min_manager_fee = 100.0;
+    public Double monthly_property_tax_rate = 0.02248 / 12.0;
     
     public Ledger flat_expense_ledger = new Ledger();
     
@@ -98,7 +98,7 @@ public class RealEstate extends Asset {
         flat_expense_ledger.add_transaction("HOA Fees", fee);
     }
     
-    public void set_monthly_flat_manager_fee(Double total_flat_fee) {
+    public void set_min_manager_fee(Double total_flat_fee) {
         this.min_manager_fee = total_flat_fee;
     }
     
