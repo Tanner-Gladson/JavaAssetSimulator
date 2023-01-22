@@ -3,33 +3,44 @@ import assetinterfaces.*;
 
 public class RealEstate extends Asset {
     
-    Double closing_costs;
-    Double initial_repair_costs = 0.0;
-    Double value_after_repair = null;
+    public Double closing_costs;
+    public Double initial_repair_costs = 0.0;
+    public Double value_after_repair = null;
     
-    Double mortgage_maturity_months = 30.0 * 12;
-    Double mortgage_mpr = 0.064;
-    Double frac_manager_fee = 0.0;
-    Double min_manager_fee = 0.0;
-    Double monthly_property_tax_rate = 0.02248;
+    public Double mortgage_maturity_months = 30.0 * 12;
+    public Double mortgage_mpr = 0.064 / 12;
+    public Double frac_manager_fee = 0.0;
+    public Double min_manager_fee = 0.0;
+    public Double monthly_property_tax_rate = 0.02248;
     
-    Ledger flat_expense_ledger = new Ledger();
+    public Ledger flat_expense_ledger = new Ledger();
     
-    Double gross_rent = 0.0;
-    Double vacancy_rate = 0.10;
+    public Double gross_rent = 0.0;
+    public Double vacancy_rate = 0.10;
     
-    Double appreciation_rate = .04;
+    public Double appreciation_rate = .04;
+    public Double monthly_payment;
     
-    
-    public RealEstate(String name, Double down_payment_percent, Double purchase_price) {
+    public RealEstate(String name, Double down_payment_frac, Double purchase_price) {
         super(
             name, 
-            purchase_price * (1 - down_payment_percent), 
-            purchase_price * (down_payment_percent),
+            purchase_price * (1 - down_payment_frac), 
+            purchase_price * (down_payment_frac),
             purchase_price
         );
         
         this.closing_costs = purchase_price * 0.06;
+        update_fields();
+    }
+    
+    public void update_fields() {
+        update_monthly_payment();
+    }
+    
+    public void update_monthly_payment() {
+        Double n = mortgage_maturity_months;
+        Double r = mortgage_mpr;
+        this.monthly_payment = init_liabilities * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
     }
     
     @Override
@@ -51,10 +62,21 @@ public class RealEstate extends Asset {
         this.value_after_repair = arv;
     }
     
+    
+    public void set_mortgage_apr(Double apr) {
+        this.mortgage_mpr = apr / 12.0;
+        update_fields();
+    }
+    
+    public void set_mortgage_maturity(int years) {
+        this.mortgage_maturity_months = years * 12.0;
+        update_fields();
+    }
+    
+    
     public void set_fractional_manager_fee(Double percent_rent_fee) {
         this.frac_manager_fee = percent_rent_fee;
     }
-    
     
     public void set_monthly_maintenance(Double maintenance) {
         flat_expense_ledger.add_transaction("Maintenance", maintenance);
