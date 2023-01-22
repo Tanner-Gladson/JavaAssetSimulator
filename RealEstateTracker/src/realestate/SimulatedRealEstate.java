@@ -22,8 +22,14 @@ public class SimulatedRealEstate extends SimulatedAsset {
     
     protected void append_revenue_ledger() {
         Ledger ledger = new Ledger();
-        Double rent = config.gross_rent * (1 - config.vacancy_rate);
-        ledger.add_transaction("Rent", rent);
+        
+        ledger.add_transaction("Rent", calculate_net_rent());
+        
+        revenue_ledgers.add(ledger);
+    }
+    
+    private Double calculate_net_rent() {
+        return config.gross_rent * (1 - config.vacancy_rate);
     }
     
     
@@ -37,13 +43,15 @@ public class SimulatedRealEstate extends SimulatedAsset {
         ledger.add_transaction("Manager fee", get_manager_fee());
         ledger.add_transaction("Property Taxes", get_property_taxes());
         
-        if (month < config.mortgage_maturity_months - 1) {
+        if (month < config.mortgage_maturity_months) {
             ledger.add_transaction("Mortgage Interest", get_mortgage_interest());
         }
         
         for (String name : config.flat_expense_ledger.keySet()) {
             ledger.add_transaction(name, config.flat_expense_ledger.get(name));
         }
+        
+        expense_ledgers.add(ledger);
     }
     
     private Double get_property_taxes() {
@@ -63,7 +71,7 @@ public class SimulatedRealEstate extends SimulatedAsset {
     protected void append_liability_payments_ledger() {
         Ledger ledger = new Ledger();
 
-        if (month+1 < config.mortgage_maturity_months) {
+        if (month < config.mortgage_maturity_months) {
             ledger.add_transaction("Principal payment", get_principal_payment());
         }
         
@@ -87,11 +95,13 @@ public class SimulatedRealEstate extends SimulatedAsset {
     protected void append_capital_gains_ledger() {
         Ledger ledger = new Ledger();
         
-        if (month == 0) {
+        if (month == 0 && config.value_after_repair != null) {
             ledger.add_transaction("ARV gain", calculate_arv_gain());
         }
         
         ledger.add_transaction("Appreciation", get_appreciation());
+        
+        capital_gains_ledgers.add(ledger);
     }
     
     private Double calculate_arv_gain() {

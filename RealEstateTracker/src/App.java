@@ -25,8 +25,26 @@ public class App {
         // so that you can track market value, too.
         
         test_realestate1();
+        test_realestate2();
 
         out.println("All tests complete!");
+    }
+    
+    
+    public static void test_realestate2() {
+        RealEstate house = new RealEstate("House", .20, 100000.0);
+        house.set_mortgage_maturity(10);
+        
+        SimulatedAsset sim = house.create_simulation(30 * 12 + 1);
+        
+        simulation2xlsx(sim);
+        // Tests passed!
+        
+        // ADDITIONAL TESTS NEED TO EVALUATE
+        // changed closing costs
+        // an additional flat expense
+        // rent & vacancy rate
+        // property manager fees (min vs percent)
     }
     
     public static void test_realestate1() {

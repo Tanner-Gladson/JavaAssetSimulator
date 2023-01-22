@@ -9,16 +9,16 @@ public class RealEstate extends Asset {
     
     public Double mortgage_maturity_months = 30.0 * 12;
     public Double mortgage_mpr = 0.064 / 12;
-    public Double frac_manager_fee = 0.0;
+    public Double frac_manager_fee = 0.10;
     public Double min_manager_fee = 0.0;
-    public Double monthly_property_tax_rate = 0.02248;
+    public Double monthly_property_tax_rate = Math.pow(1.02248, 1.0/12.0) - 1;
     
     public Ledger flat_expense_ledger = new Ledger();
     
     public Double gross_rent = 0.0;
     public Double vacancy_rate = 0.10;
     
-    public Double appreciation_rate = .04;
+    public Double appreciation_rate = Math.pow(1.04, 1.0/12.0) - 1;
     public Double monthly_payment;
     
     public RealEstate(String name, Double down_payment_frac, Double purchase_price) {
