@@ -10,6 +10,7 @@ public class RealEstate extends Asset {
     Double mortgage_maturity_months = 30.0 * 12;
     Double mortgage_mpr = 0.064;
     Double frac_manager_fee = 0.0;
+    Double min_manager_fee = 0.0;
     Double monthly_property_tax_rate = 0.02248;
     
     Ledger flat_expense_ledger = new Ledger();
@@ -17,7 +18,7 @@ public class RealEstate extends Asset {
     Double gross_rent = 0.0;
     Double vacancy_rate = 0.10;
     
-    Double appreciation_rate;
+    Double appreciation_rate = .04;
     
     
     public RealEstate(String name, Double down_payment_percent, Double purchase_price) {
@@ -76,7 +77,7 @@ public class RealEstate extends Asset {
     }
     
     public void set_monthly_flat_manager_fee(Double total_flat_fee) {
-        flat_expense_ledger.add_transaction("Manager Fees", total_flat_fee);
+        this.min_manager_fee = total_flat_fee;
     }
     
     
