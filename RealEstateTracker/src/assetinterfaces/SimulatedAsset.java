@@ -146,7 +146,7 @@ public abstract class SimulatedAsset {
         liabilities.add(old_liability - liability_payments.get(month));
     }
     
-    private double get_prev_liability() {
+    protected double get_prev_liability() {
         if (month == 0) {
             return init_liabilities;
         } else {

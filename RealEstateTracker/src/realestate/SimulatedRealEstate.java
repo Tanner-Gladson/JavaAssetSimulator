@@ -35,14 +35,23 @@ public class SimulatedRealEstate extends SimulatedAsset {
         }
         
         ledger.add_transaction("Manager fee", get_manager_fee());
-        ledger.add_transaction("Property Taxes", get_prev_asset_value() * config.monthly_property_tax_rate);
+        ledger.add_transaction("Property Taxes", get_property_taxes());
         
-        
-        // mortgage interest
+        if (month < config.mortgage_maturity_months - 1) {
+            ledger.add_transaction("Mortgage Interest", get_mortgage_interest());
+        }
         
         for (String name : config.flat_expense_ledger.keySet()) {
             ledger.add_transaction(name, config.flat_expense_ledger.get(name));
         }
+    }
+    
+    private Double get_property_taxes() {
+        return get_prev_asset_value() * config.monthly_property_tax_rate;
+    }
+    
+    private Double get_mortgage_interest() {
+        return get_prev_liability() * config.mortgage_mpr;
     }
     
     private Double get_manager_fee() {
@@ -52,7 +61,17 @@ public class SimulatedRealEstate extends SimulatedAsset {
     
     
     protected void append_liability_payments_ledger() {
-        // monthly payment directed towards principal
+        Ledger ledger = new Ledger();
+
+        if (month+1 < config.mortgage_maturity_months) {
+            ledger.add_transaction("Principal payment", get_principal_payment());
+        }
+        
+        liability_payments_ledgers.add(ledger);
+    }
+    
+    private Double get_principal_payment() {
+        return config.monthly_payment - get_mortgage_interest();
     }
     
     
@@ -69,18 +88,20 @@ public class SimulatedRealEstate extends SimulatedAsset {
         Ledger ledger = new Ledger();
         
         if (month == 0) {
-            Double gain = config.value_after_repair 
-                        - config.init_asset_value 
-                        - config.initial_repair_costs;
-            
-            ledger.add_transaction("ARV gain", gain);
+            ledger.add_transaction("ARV gain", calculate_arv_gain());
         }
         
-        ledger.add_transaction(
-            "Appreciation", 
-            get_prev_asset_value() * config.appreciation_rate
-        );
+        ledger.add_transaction("Appreciation", get_appreciation());
     }
     
+    private Double calculate_arv_gain() {
+        return config.value_after_repair 
+            - config.init_asset_value 
+            - config.initial_repair_costs;
+    }
+    
+    private Double get_appreciation() {
+        return get_prev_asset_value() * config.appreciation_rate;
+    }
     
 }

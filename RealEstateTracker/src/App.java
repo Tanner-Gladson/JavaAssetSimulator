@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import assetinterfaces.*;
 import stock.*;
+import realestate.*;
 
 import javax.sound.sampled.Port;
 
@@ -22,10 +23,22 @@ public class App {
         
         // TODO: Create a special realestate2xlsx function
         // so that you can track market value, too.
+        
+        test_realestate1();
 
         out.println("All tests complete!");
     }
     
+    public static void test_realestate1() {
+        RealEstate house = new RealEstate("House", .20, 100000.0);
+        
+        System.out.println(house.init_equity);
+        System.out.println(house.init_liabilities);
+        System.out.println(house.init_asset_value);
+        out.println();
+        
+        System.out.println(house.monthly_payment);
+    }
     
     
     
